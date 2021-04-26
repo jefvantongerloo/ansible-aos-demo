@@ -1,0 +1,11 @@
+---
+all:
+  hosts:
+    NET-SWI-001:
+      ansible_host: <change_me>
+      device_vendor: alcatel
+      device_os: aos8
+    NET-SWI-002:
+      ansible_host: <change_me>
+      device_vendor: alcatel
+      device_os: aos6
