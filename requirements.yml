@@ -1,0 +1,6 @@
+---
+roles:
+  # Ansible role to access OmniSwitch ALE devices
+  - name: gmoisio.ale_aos
+    version: "v1.1.3"
+    
