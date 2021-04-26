@@ -1,0 +1,5 @@
+---
+# Alcatel login credentials
+# Should be stored in vault encrypted variable file for production use
+ale_username: admin
+ale_password: switch
