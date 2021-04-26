@@ -1,0 +1,87 @@
+---
+- name: Backup aos8 switch configurations
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  roles:
+    - gmoisio.ale_aos
+
+  tasks:
+    - name: AOS8 >> check 443 open port
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 443
+        state: started
+        delay: 0
+        timeout: 1
+      ignore_errors: yes
+      register: port_443_state
+      when: device_os == 'aos8'
+
+    - name: AOS8 >> enable webserver when needed
+      ale_aos_config:
+        host: '{{ ansible_host }}'
+        username: '{{ ale_username }}'
+        password: '{{ ale_password }}'
+        commands: 
+          - webview server enable
+          - webview access enable
+      when: device_os == 'aos8' and port_443_state.failed == true
+
+    - name: DEBUG >> port 443 state
+      debug:
+        var: port_443_state
+        verbosity: 2
+    
+    - name: AOS8 >> rest login, get return cookie
+      uri:
+        url: https://{{ ansible_host }}/auth/?username={{ ale_username }}&password={{ ale_password }}
+        method: GET
+        validate_certs: no
+      register: login
+      until: login.status == 200
+      when: device_os == 'aos8'
+
+    - name: DEBUG >> login
+      debug:
+        var: login.cookies_string
+        verbosity: 2
+    
+    - name: AOS8 >> backup configuration
+      uri:
+        url: https://{{ ansible_host }}/cli/aos/?&cmd=show+configuration+snapshot
+        method: GET
+        validate_certs: no
+        return_content: yes
+        headers:
+          Cookie: "{{ login['cookies_string'] }}"
+          Accept: application/vnd.alcatellucentaos+json
+      register: remote_backup_config
+      when: device_os == 'aos8'
+
+    - name: DEBUG - remote backup configuration
+      debug:
+        var: remote_backup_config
+        verbosity: 2
+
+    - name: AOS8 >> rest logout
+      uri:
+        url: https://{{ ansible_host }}/auth/?
+        method: POST
+        validate_certs: no
+        status_code: 200
+        headers:
+          Cookies: "{{ login['cookies_string'] }}"
+      when: device_os == 'aos8'
+
+    - name: LOCAL - create child folders
+      file:
+        path: "backups/{{ device_vendor }}/{{ inventory_hostname }}/"
+        state: directory
+
+    - name: AOS8 >> copy configuration to local folder
+      copy:
+        content: "{{ remote_backup_config.json['result']['output'] }}"
+        dest: "backups/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}-{{lookup('pipe','date +%Y%m%d')}}.cfg"
+      when: device_os == 'aos8'
