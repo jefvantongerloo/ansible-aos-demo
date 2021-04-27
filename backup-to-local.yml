@@ -1,0 +1,16 @@
+    - name: LOCAL >> create child folders
+      file:
+        path: "backups/{{ device_vendor }}/{{ inventory_hostname }}/"
+        state: directory
+    
+    - name: LOCAL >> aos6 copy configuration to local folder
+      copy:
+        content: "{{ remote_backup_config['output'] }}"
+        dest: "backups/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}-{{lookup('pipe','date +%Y%m%d')}}.cfg"
+      when: device_os == 'aos6'
+
+    - name: LOCAL >> aos8 copy configuration to local folder
+      copy:
+        content: "{{ remote_backup_config.json['result']['output'] }}"
+        dest: "backups/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}-{{lookup('pipe','date +%Y%m%d')}}.cfg"
+      when: device_os == 'aos8'
