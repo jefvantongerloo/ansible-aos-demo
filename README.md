@@ -18,7 +18,12 @@ Output connectors can be turned on to store backups to different locations: loca
 ```python
 pip3 install -r requirements.txt
 ```
-2. Install ansible-galaxy role
+2. Install Ansible-galaxy roles
+```ansible
+ansible-galaxy role install -r requirements.yml
+```
+
+3. Install Ansible-galaxy collections
 ```ansible
 ansible-galaxy role install -r requirements.yml
 ```
