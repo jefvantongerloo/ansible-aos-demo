@@ -1,0 +1,13 @@
+- name: LOCAL >> create .temp folder
+  file:
+    path: .temp
+    state: directory
+  run_once: true
+
+- name: GIT >> clone remote repository
+  git:
+    clone: yes
+    repo: https://{{ git_username }}:{{ git_token }}@{{ git_url }}
+    dest: .temp
+    version: '{{ git_branch }}'
+  run_once: true
