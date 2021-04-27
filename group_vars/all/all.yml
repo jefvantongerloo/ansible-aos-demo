@@ -1,5 +1,20 @@
 ---
+# Set Python3 for all hosts
+ansible_python_interpreter: "python3"
+
 # Alcatel login credentials
 # Should be stored in vault encrypted variable file for production use
 ale_username: admin
 ale_password: switch
+
+# Set export destinations
+# backup_local -> export to local "backups" folder
+# backup_git -> export to remote repository
+backup_local: true
+backup_git: false
+
+# Set git parameters when backup_git is true
+git_token: "<change_me>"
+git_username: "<change_me>"
+git_url: "<change_me>"
+git_branch: "master"
