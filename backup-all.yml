@@ -1,0 +1,37 @@
+# Backup the entire network infrastructure
+---
+- name: Backup all devices
+  gather_facts: false
+  connection: local
+  hosts: all
+
+  roles:
+    - gmoisio.ale_aos
+  collections:
+    - lvrfrc87.git_acp
+
+  tasks:
+      # Backup configuration through CLI
+    - name: IMPORT >> backup configuration
+      include_tasks: backup-aos6.yml
+      when: device_os == 'aos6'
+
+      # Read backup files from remote git
+    - name: IMPORT >> clone repository
+      import_tasks: backup-to-git-clone.yml
+      when: backup_git
+
+      # Backup configuration through REST API
+    - name: IMPORT >> backups configuration
+      include_tasks: backup-aos8.yml
+      when: device_os == 'aos8'
+
+      # Write backup file to local directory
+    - name: IMPORT >> backups configuration
+      import_tasks: backup-to-local.yml
+      when: backup_local
+
+      # Write backup file to remote git
+    - name: IMPORT >> backups configuration
+      import_tasks: backup-to-git.yml
+      when: backup_git
