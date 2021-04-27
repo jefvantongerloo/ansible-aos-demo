@@ -1,0 +1,35 @@
+- name: LOCAL >> create child folders
+  file:
+    path: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/"
+    state: directory
+
+- name: LOCAL >> aos6 copy configuration to local folder
+  copy:
+    content: "{{ remote_backup_config['output'] }}"
+    dest: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}.cfg"
+  when: device_os == 'aos6'
+
+- name: LOCAL >> aos8 copy configuration to local folder
+  copy:
+    content: "{{ remote_backup_config.json['result']['output'] }}"
+    dest: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}.cfg"
+  when: device_os == 'aos8'
+
+- name: GIT >> commit and push to remote
+  git_acp:
+    user: "{{ git_username }}"
+    token: "{{ git_token }}"
+    path: .temp/
+    branch: "{{ git_branch }}"
+    comment: Autobackup - net-awx
+    remote: origin
+    add: [ "." ]
+    mode: https
+    url: "https://git-ict.ap.be/netwerkbeheer/cmdb.git"
+  run_once: true
+
+- name: LOCAL >> remove .temp directory (recursive)
+  file:
+    path: .temp
+    state: absent
+  run_once: true
