@@ -1,31 +1,10 @@
 ---
-- name: Backup aos6 switch configurations
-  hosts: all
-  connection: local
-  gather_facts: false
-
-  roles:
-    - gmoisio.ale_aos
-
-  tasks:
-    - name: AOS6 >> backup configuration
-      ale_aos_command:
-        host: '{{ ansible_host }}'
-        timing: True
-        username: '{{ ale_username }}'
-        password: '{{ ale_password }}'
-        command: show configuration snapshot
-      register: remote_backup_config
-      when: device_os == 'aos6'
-    
-    - name: LOCAL >> create child folders
-      file:
-        path: "backups/{{ device_vendor }}/{{ inventory_hostname }}/"
-        state: directory
-      when: remote_backup_config is defined
-
-    - name: AOS6 >> copy configuration to local folder
-      copy:
-        content: "{{ remote_backup_config['output'] }}"
-        dest: "backups/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}-{{lookup('pipe','date +%Y%m%d')}}.cfg"
-      when: device_os == 'aos6'
+- name: AOS6 >> backup configuration
+  ale_aos_command:
+    host: '{{ ansible_host }}'
+    timing: True
+    username: '{{ ale_username }}'
+    password: '{{ ale_password }}'
+    command: show configuration snapshot
+  register: remote_backup_config
+  when: device_os == 'aos6'
