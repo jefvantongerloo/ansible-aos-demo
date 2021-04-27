@@ -3,4 +3,9 @@ roles:
   # Ansible role to access OmniSwitch ALE devices
   - name: gmoisio.ale_aos
     version: "v1.1.3"
-    
+
+collections:
+  # Ansible collection to interact with GitLab
+  - name: lvrfrc87.git_acp
+    version: "1.1.3"
+  - name: community.general 
