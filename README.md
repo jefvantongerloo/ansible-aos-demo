@@ -1,11 +1,19 @@
 # ansible-aos-demo
 **Backup Alcatel-lucent Enterprise AOS6 and AOS8 devices.**
 
-Backups are stored in backup folder with a date suffix
+## Overview
+Backup all ALE aos6 and aos8 Omniswitch devices using CLI or REST API.
+Output connectors can be turned on to store backups to different locations: local, git, ...
+
+**Default transport connection**
 - AOS6: CLI connection
 - AOS8: REST api
 
-## Steps:
+**Output connectors**
+- Local
+- Git
+
+## Installation
 1. Install Python requirements
 ```python
 pip3 install -r requirements.txt
@@ -14,7 +22,9 @@ pip3 install -r requirements.txt
 ```ansible
 ansible-galaxy role install -r requirements.yml
 ```
-3. Add hosts to inventory.yml file
+
+### Configuration
+1. Add hosts to inventory.yml file
 ```yaml
 ---
 all:
@@ -24,17 +34,31 @@ all:
       device_vendor: alcatel
       device_os: aos8
 ```
-4. Add credentials in group_vars/all/all.yml
+2. Alter credentials in group_vars/all/all.yml
 ```yaml
 ---
 ale_username: amdin
 ale_password: switch
 ```
 
-## Sample playbook
-```ansible
-ansible-playbook backup-aos6.yml
-ansible-playbook backup-aos8.yml
+3. Select output connectors
+```yaml
+---
+backup_local: true
+backup_git: false
+```
+
+4. Optional: set git parameters
+```yaml
+git_token: "<change_me>"
+git_username: "<change_me>"
+git_url: "<change_me>"
+git_branch: "master"
+```
+
+5. call playbook from command line
+```bash
+ansible-playbook backup-all.yml
 ```
 
 ## Note for production:
