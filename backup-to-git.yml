@@ -2,17 +2,20 @@
   file:
     path: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/"
     state: directory
+    mode: 0755
 
 - name: LOCAL >> aos6 copy configuration to local folder
   copy:
     content: "{{ remote_backup_config['output'] }}"
     dest: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}.cfg"
+    mode: 0644
   when: device_os == 'aos6'
 
 - name: LOCAL >> aos8 copy configuration to local folder
   copy:
     content: "{{ remote_backup_config.json['result']['output'] }}"
     dest: ".temp/{{ device_vendor }}/{{ inventory_hostname }}/{{ ansible_host }}.cfg"
+    mode: 0644
   when: device_os == 'aos8'
 
 - name: GIT >> commit and push to remote
@@ -23,7 +26,7 @@
     branch: "{{ git_branch }}"
     comment: Autobackup - net-awx
     remote: origin
-    add: [ "." ]
+    add: ["."]
     mode: https
     url: "https://git-ict.ap.be/netwerkbeheer/cmdb.git"
   run_once: true
