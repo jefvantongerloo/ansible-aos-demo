@@ -8,6 +8,6 @@ branches:
     - dev
 
 install:
-  - pip3 install git+https://github.com/ansible-community/ansible-lint.git
+  - pip3 install "ansible-lint[core,yamllint]"
 script:
   - ansible-lint *.yml
