@@ -1,6 +1,6 @@
 language: python
 python:
-- "3.8.5"
+- "3.6"
 
 #safelist
 branches:
@@ -8,6 +8,6 @@ branches:
     - dev
 
 install:
-  - pip install -r requirements-test.txt
+  - pip3 install git+https://github.com/ansible-community/ansible-lint.git
 script:
   - ansible-lint *.yml
