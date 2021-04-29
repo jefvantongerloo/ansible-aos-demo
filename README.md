@@ -1,3 +1,5 @@
+[![Build Status dev](https://travis-ci.com/jefvantongerloo/ansible-aos-demo.svg?branch=dev)](https://travis-ci.com/jefvantongerloo/ansible-aos-demo)
+
 # ansible-aos-demo
 **Backup Alcatel-lucent Enterprise AOS6 and AOS8 devices.**
 
