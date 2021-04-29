@@ -1,0 +1,2 @@
+warn_list:
+  - var-spacing  # Variables should have spaces before and after:  {{ var_name }}
