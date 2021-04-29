@@ -8,6 +8,8 @@ branches:
     - dev
 
 install:
-  - pip3 install "ansible-lint[core,yamllint]"
+  - pip3 install -r requirements-test.txt
+  - ansible-galaxy collection install requirements.yml
+  - ansible-galaxy role install requirements.yml
 script:
   - ansible-lint *.yml
