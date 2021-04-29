@@ -1,0 +1,13 @@
+language: python
+python:
+- "3.8.5"
+
+#safelist
+branches:
+  only:
+    - dev
+
+install:
+  - pip install -r requirements-test.txt
+script:
+  - ansible-lint *.yml
