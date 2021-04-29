@@ -1,0 +1,7 @@
+# ansible-lint
+warn_list:
+  - var-spacing  # Variables should have spaces before and after:  {{ var_name }}
+
+exclude_paths:
+- .cache/  # implicit unless exclude_paths is defined in config
+- ${HOME}/.ansible/roles/

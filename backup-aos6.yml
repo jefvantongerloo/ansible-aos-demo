@@ -2,7 +2,7 @@
 - name: AOS6 >> backup configuration
   ale_aos_command:
     host: '{{ ansible_host }}'
-    timing: True
+    timing: true
     username: '{{ ale_username }}'
     password: '{{ ale_password }}'
     command: show configuration snapshot
