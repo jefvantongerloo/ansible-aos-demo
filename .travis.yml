@@ -1,8 +1,8 @@
 language: python
 python:
-- "3.6"
+  - "3.6"
 
-#safelist
+# safelist
 branches:
   only:
     - dev
@@ -12,4 +12,4 @@ install:
   - ansible-galaxy collection install -r requirements.yml
   - ansible-galaxy role install -r requirements.yml
 script:
-  - ansible-lint *.yml
+  - ansible-lint backup-all.yml
