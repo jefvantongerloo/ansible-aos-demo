@@ -1,2 +1,2 @@
-ansible-base
+ansible-base==3.3.0
 netmiko
