@@ -2,6 +2,7 @@
 
 # ansible-aos-demo
 **Backup Alcatel-lucent Enterprise AOS6 and AOS8 devices.**
+Contains all relevant files for blogpost: [Backup Alcatel-Lucent Enterprise Omniswitch AOS6 & AOS8 using Ansible](https://netdevops.be/en/alcatel-lucent-enterprise-omniswitch-aos6-aos8-ansile-backup/)
 
 ## Overview
 Backup all ALE aos6 and aos8 Omniswitch devices using CLI or REST API.
@@ -44,7 +45,7 @@ all:
 2. Alter credentials in group_vars/all/all.yml
 ```yaml
 ---
-ale_username: amdin
+ale_username: admin
 ale_password: switch
 ```
 
