@@ -5,10 +5,9 @@
   connection: local
   hosts: all
 
-  roles:
-    - gmoisio.ale_aos
   collections:
     - lvrfrc87.git_acp
+    - gmoisio.ale.ale_aos_command
 
   tasks:
     # Backup configuration through CLI
