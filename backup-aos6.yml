@@ -8,7 +8,3 @@
     command: show configuration snapshot
   register: remote_backup_config
   when: device_os == 'aos6'
-
-- name: debug configuration
-  debug: 
-    var: remote_backup_config
